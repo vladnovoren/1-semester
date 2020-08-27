@@ -13,7 +13,7 @@ bool checkZero(double a){
 void enterCoefficient(double* a, char coef){
         while(true){
             printf("%c: ", coef);
-            if(scanf("%lg", a)!=1){
+            if(scanf("%lg", a) != 1){
                 printf("Incorrect value entered, please try again\n");
                 fflush(stdin);
             }
