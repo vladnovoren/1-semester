@@ -10,11 +10,19 @@ bool checkZero(double a){
     return a < eps && a + eps > 0;
 }
 
-int quadSolve(double a, double b, double c, double* x1, double* x2){
+void enterCoefficient(double* a, char coef){
+        while(true){
+            printf("%c: ", coef);
+            if(scanf("%lg", a)!=1){
+                printf("Incorrect value entered, please try again\n");
+                fflush(stdin);
+            }
+            else
+                break;
+        }
+}
 
-    assert(std::isfinite(a));
-    assert(std::isfinite(b));
-    assert(std::isfinite(c));
+int quadSolve(double a, double b, double c, double* x1, double* x2){
 
     assert(x1 != NULL);
     assert(x2 != NULL);
@@ -63,22 +71,9 @@ int main(){
 
     printf("Please enter coefficients:\n");
 
-
-    printf("a: ");
-    while(scanf("%lg", &a) != 1){
-        printf("Incorrect value entered, please try again: ");
-    }
-
-
-    printf("b: ");
-    while(scanf("%lg", &b) != 1){
-        printf("Incorrect value entered, please try again: ");
-    }
-
-    printf("c: ");
-    while(scanf("%lg", &c) != 1){
-        printf("Incorrect value entered, please try again: ");
-    }
+    enterCoefficient(&a, 'a');
+    enterCoefficient(&b, 'b');
+    enterCoefficient(&c, 'c');
 
     int nSolutions = quadSolve(a, b, c, &x1, &x2);
 
@@ -107,4 +102,3 @@ int main(){
 
     return 0;
 }
-
