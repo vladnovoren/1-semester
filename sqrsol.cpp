@@ -23,10 +23,9 @@ void enterCoefficient(double* a, char coef){
 }
 
 int quadSolve(double a, double b, double c, double* x1, double* x2){
-
-	assert(std::isfinite(a));
-	assert(std::isfinite(b));
-	assert(std::isfinite(c));
+    assert(std::isfinite(a));
+    assert(std::isfinite(b));
+    assert(std::isfinite(c));
 
     assert(x1 != NULL);
     assert(x2 != NULL);
