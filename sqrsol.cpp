@@ -2,7 +2,7 @@
 #include <math.h>
 #include <assert.h>
 
-const int eps = 1e-6;
+const double eps = 1e-6;
 
 const int INF_SOL_FLAG = -1;
 
@@ -23,6 +23,10 @@ void enterCoefficient(double* a, char coef){
 }
 
 int quadSolve(double a, double b, double c, double* x1, double* x2){
+
+	assert(std::isfinite(a));
+	assert(std::isfinite(b));
+	assert(std::isfinite(c));
 
     assert(x1 != NULL);
     assert(x2 != NULL);
@@ -49,7 +53,7 @@ int quadSolve(double a, double b, double c, double* x1, double* x2){
             return 0;
         }
 
-        if(discrim == 0){
+        if(checkZero(discrim)){
             *x1 = *x2 = - b / (2 * a);
             return 1;
         }
