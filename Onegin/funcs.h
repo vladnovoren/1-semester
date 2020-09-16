@@ -1,7 +1,12 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
+#include <locale.h>
+#include <stdlib.h>
 //заголовочный файл
-
 //Str - структура для хранения информации о строке
-//str - строка, length - её длина
+//str - указатель на начало строки в буфере, length - её длина
 struct Str{
 	char *str;
 	int length;
@@ -9,10 +14,10 @@ struct Str{
 
 //Read_Buff производит считывание символов из указателя f файла input.txt в буфер buff
 // и возвращает в size кол-во символов в файле, а в strcnt кол-во строк в файле
-int Read_Buff(FILE *f, char **buff, int *size, int *strcnt);
+void Read_Buff(FILE *f, char **buff, int *size, int *strcnt);
 
-//Make_Index заполняет массив структур index данными о строках
-int Make_Index(char *buff, struct Str **index, int *size, int *strcnt);
+//Make_Index заполняет массив структур Str данными о строках из буфера
+void Make_Index(char *buff, struct Str **index, int *size, int *strcnt);
 
 //Is_Legit_Symb возвращает 1, если x является русской/латинской буквой или цифрой, иначе возвращает 0
 int Is_Legit_Symb(unsigned char x);
@@ -45,8 +50,8 @@ int Comparator_End(const void *a, const void *b);
 
 //Make_Index_Origin копирует массив index в массив index_first для дальнейшего
 //вывода текста в оригинальном виде
-int Make_Index_Origin(int strcnt, struct Str *index, struct Str **index_first);
+void Make_Index_First(int strcnt, struct Str *index, struct Str **index_first);
 
 //Output_Text записывает данные из массива index 
 //в файл, на который указывает f
-int Output_Text(struct Str *index, int strcnt, FILE *f);
+void Output_Text(struct Str *index, int strcnt, FILE *f);

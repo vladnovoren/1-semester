@@ -1,63 +1,75 @@
-#include <stdio.h>
-#include <string.h>
-#include <locale.h>
-#include <stdlib.h>
 #include "funcs.h"
 
-
-
-
-//
-//
-//
-//
 int main(int argc, char *argv[]){
 	
-	printf("Hello! This is a line sorter of the novel by Alexander Pushkin \"Eugene Onegin\"\n");
+	printf("Hello! This is a line sorter of the novel by Alexander Pushkin \"Eugene Onegin\".\n");
+	//если не указан файл вввода или файл вывода, просим пользователя запустить программу еще раз
+	if(argc < 3){
+		printf("Insufficient arguments passed when calling the program. Please try again.\n");
+	}
 
-	setlocale(LC_ALL, "Russian");
+	setlocale(LC_ALL, "ru_RU.CP1251");
 
+	//открытие файла для чтения по имени, переданному первым аргументом
 	FILE *f = fopen(argv[1], "r");
-
+	if(f == NULL){
+		printf("Error reading file \"%s\"\n", argv[1]);
+		return 0;
+	}
+	//открытие файла для записи по имени, переданному вторым аргументом
 	FILE *fout = fopen(argv[2] , "w");
+	if(f == NULL){
+		printf("Error reading file \"%s\"\n", argv[2]);
+		return 0;
+	}
 
 	char *buff = 0;
 	
+	//количество строк в исходном тексте
 	int strcnt = 0;
 
+	//количество символов в исходном тексте
 	int size = 0;
 
+	//вносим данные из файла в буфер, тк считывание данных с ПЗУ медленнее, чем с ОЗУ
 	Read_Buff(f, &buff, &size, &strcnt);
 	
+	//объявление массив структур Str с данными о строках
 	struct Str *index = 0;
 
+	//то же, что и индекс, но для хранения исходных строк и их дальнейшего вывода
 	struct Str *index_origin = 0;
 
 	Make_Index( buff, &index, &size, &strcnt);
 	
-	Make_Index_Origin(strcnt, index, &index_origin);
+	Make_Index_First(strcnt, index, &index_origin);
 
+	//сортируем строки слева направо
 	qsort(index, strcnt, sizeof(struct Str), Comparator_Begin);
 
+	//выводим результат
 	fputs("/* Left-to-right sorted lines */\n", fout);
 	Output_Text(index, strcnt, fout);
 	fputs("/*............................*/\n\n", fout);
 
+	//сортируем строки справа налево
 	qsort(index, strcnt, sizeof(struct Str), Comparator_End);
 
+	//выводим результат
 	fputs("/* Right-to-left sorted lines */\n", fout);
 	Output_Text(index, strcnt, fout);
 	fputs("/*............................*/\n\n", fout);
 
+	//вывод оригинального текста
 	fputs("/* Original text */\n", fout);
 	Output_Text(index_origin, strcnt, fout);
 	fputs("/*...............*/\n", fout);
 
-	fclose(f);
+	//закрываем файлы и освобождем динамическую память
 	fclose(fout);
-
-	free(index_origin);
+	free(buff);
 	free(index);
-	free(buff - 1);
+	free(index_origin);
 	return 0;
 }
+

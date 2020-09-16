@@ -1,18 +1,15 @@
 //описание функций 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <locale.h>
-#include <stdlib.h>
 #include "funcs.h"
 
-int Read_Buff(FILE *f, char **buff, int *size, int *strcnt){
+void Read_Buff(FILE *f, char **buff, int *size, int *strcnt){
+    assert(f != 0);
     fseek(f, 0, SEEK_END);
 	*size = ftell(f);
-	fseek(f, 0, SEEK_SET);//узнаем кол-во символов в файле
-	*buff = (char *) calloc(*size + 2, sizeof(char));//выделение памяти для буфера
+	fseek(f, 0, SEEK_SET);
+	*buff = (char *) calloc(*size + 2, sizeof(char));
+    assert(buff != 0);
     **buff = '\0';
-	fread(*buff, sizeof(char), *size, f);//чтение файла
+	fread(*buff, sizeof(char), *size, f);
     if((*buff)[*size - 1] != '\n') {
         (*buff)[*size] = '\n';
         (*size)++;
@@ -24,25 +21,23 @@ int Read_Buff(FILE *f, char **buff, int *size, int *strcnt){
             (*strcnt)++;
         }
     }
-    
-	return 0;
 }
 
-int Make_Index(char *buff, struct Str **index_ptr, int *size, int *strcnt){
-    struct Str *index = (struct Str *)calloc(*strcnt, sizeof(struct Str));
-    *index_ptr = index;
+void Make_Index(char *buff, struct Str **index, int *size, int *strcnt){
+    assert(buff != 0);
+    *index = (struct Str *)calloc(*strcnt, sizeof(struct Str));
+    assert(index != 0);
     int begin_pos = 0;
     int pos = 0;
     for(int cur_num = 0; cur_num < *strcnt; cur_num++){
         while(buff[pos] != '\0'){
             pos++;
         }
-        index[cur_num].str = buff + begin_pos;
-        index[cur_num].length = pos - begin_pos;
+        (*index)[cur_num].str = buff + begin_pos;
+        (*index)[cur_num].length = pos - begin_pos;
         pos++;
         begin_pos = pos;
     }
-    return 0;
 }
 
 int Is_Legit_Symb(unsigned char x){
@@ -50,6 +45,8 @@ int Is_Legit_Symb(unsigned char x){
 }
 
 int Str_Comp_Begin(const struct Str *str1, const struct Str *str2){
+    assert(str1 != 0);
+    assert(str2 != 0);
     if(str1->length == 0) return -1;
     if(str2->length == 0) return 1;
     int real_length1 = 0;
@@ -82,9 +79,12 @@ int Str_Comp_Begin(const struct Str *str1, const struct Str *str2){
     if(real_length1 == real_length2){
         return 0;
     }
+    return 0;
 }
 
 int Str_Comp_End(const struct Str *str1, const struct Str *str2){
+    assert(str1 != 0);
+    assert(str2 != 0);
     if(str1->length == 0) return -1;
     if(str2->length == 0) return 1;
     int real_length1 = 0;
@@ -117,6 +117,7 @@ int Str_Comp_End(const struct Str *str1, const struct Str *str2){
     if(real_length1 == real_length2){
         return 0;
     }
+    return 0;
 }
 
 int Comparator_Begin(const void *a, const void *b){
@@ -131,20 +132,21 @@ int Comparator_End(const void *a, const void *b){
     return Str_Comp_End(A, B);
 }
 
-int Make_Index_Origin(int strcnt, struct Str *index, struct Str **index_first){
+void Make_Index_First(int strcnt, struct Str *index, struct Str **index_first){
+    assert(index != 0);
     *index_first = (struct Str*)calloc(strcnt, sizeof(struct Str));    
+    assert(index_first != 0);
     for(int i = 0; i < strcnt; i++){
         (*index_first)[i].str = index[i].str;
         (*index_first)[i].length = index[i].length;
     }
-    return 0;
 }
 
-int Output_Text(struct Str *index, int strcnt, FILE *f)
+void Output_Text(struct Str *index, int strcnt, FILE *f)
 {
+    assert(index != 0);
     for(int num = 0; num < strcnt; num++){
         fputs(index[num].str, f);
         fputc('\n', f);
     }
-    return 0;
 }
