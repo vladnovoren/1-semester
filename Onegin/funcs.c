@@ -6,7 +6,7 @@ void Read_Buff(FILE *f, char **buff, int *size, int *strcnt){
     fseek(f, 0, SEEK_END);
 	*size = ftell(f);
 	fseek(f, 0, SEEK_SET);
-	*buff = (char *) calloc(*size + 2, sizeof(char));
+	*buff = (char *)calloc(*size + 2, sizeof(char));
     assert(buff != 0);
     **buff = '\0';
 	fread(*buff, sizeof(char), *size, f);
@@ -15,21 +15,21 @@ void Read_Buff(FILE *f, char **buff, int *size, int *strcnt){
         (*size)++;
     }
 	fclose(f);
-    for(int i = 0; i < *size; i++){
-        if((*buff)[i] == '\n'){
-            (*buff)[i] = '\0';
+    for(size_t pos = 0; pos < *size; pos++){
+        if((*buff)[pos] == '\n'){
+            (*buff)[pos] = '\0';
             (*strcnt)++;
         }
     }
 }
 
-void Make_Index(char *buff, struct Str **index, int *size, int *strcnt){
+void Make_Index(char *buff, struct Str **index, int strcnt){
     assert(buff != 0);
-    *index = (struct Str *)calloc(*strcnt, sizeof(struct Str));
+    *index = (struct Str *)calloc(strcnt, sizeof(struct Str));
     assert(index != 0);
-    int begin_pos = 0;
-    int pos = 0;
-    for(int cur_num = 0; cur_num < *strcnt; cur_num++){
+    size_t begin_pos = 0;
+    size_t pos = 0;
+    for(int cur_num = 0; cur_num < strcnt; cur_num++){
         while(buff[pos] != '\0'){
             pos++;
         }
@@ -120,33 +120,22 @@ int Str_Comp_End(const struct Str *str1, const struct Str *str2){
     return 0;
 }
 
-int Comparator_Begin(const void *a, const void *b){
-    struct Str *A = (struct Str *)a;
-    struct Str *B = (struct Str *)b;
-    return Str_Comp_Begin(A, B);
-}
-
-int Comparator_End(const void *a, const void *b){
-    struct Str *A = (struct Str *)a;
-    struct Str *B = (struct Str *)b;
-    return Str_Comp_End(A, B);
-}
-
-void Make_Index_First(int strcnt, struct Str *index, struct Str **index_first){
-    assert(index != 0);
-    *index_first = (struct Str*)calloc(strcnt, sizeof(struct Str));    
-    assert(index_first != 0);
-    for(int i = 0; i < strcnt; i++){
-        (*index_first)[i].str = index[i].str;
-        (*index_first)[i].length = index[i].length;
-    }
-}
-
-void Output_Text(struct Str *index, int strcnt, FILE *f)
+void Output_Sorted_Text(struct Str *index, int strcnt, FILE *f)
 {
     assert(index != 0);
     for(int num = 0; num < strcnt; num++){
         fputs(index[num].str, f);
         fputc('\n', f);
+    }
+}
+
+void Output_Original_Text(char *buff, int size, FILE *fout){
+    assert(buff != 0);
+    assert(fout != 0);
+    for(int pos = 0; pos < size; pos++){
+        if(buff[pos] != '\0')
+            fputc(buff[pos], fout);
+        else
+            fputc('\n', fout);
     }
 }
