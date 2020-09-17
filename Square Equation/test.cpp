@@ -1,111 +1,60 @@
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
+/**
+ * @file
+*/
+#include "funcs.h"
 
-const double eps = 1e-6;
+struct coefs{
+    float a;
+    float b;
+    float c;
+} input_set[] = {
+    1, 2, 1,
+    1, 0, 1,
+    2, 1, 3,
+    0, 0, 0,
+    0, 0, 1,
+    0, 4, 17,
+    3.5, 2.3, 4.4,
+    1.2, 8.9, 1,
+    6, 32, 4.234
+};
 
-double Input1[] = {
+struct ans{
+    int count;
+    float x1;
+    float x2;
+} right_ans[] = {
+    1, -1, -1,
+    0, 0, 0,
+    0, 0, 0,
+    -1, 0, 0,
+    0, 0, 0,
+    1, -4.25, -4.25,
+    0, 0, 0,
+    2, -0.114115, -7.302551,
+    2, -0.135769, -5.197564
+};
 
-
-
-const int INF_SOL_FLAG = -1;
-
-bool checkZero(double a){
-    return a < eps && a + eps > 0;
-}
-
-void enterCoefficient(double* a, char coef){
-        while(true){
-            printf("%c: ", coef);
-            if(scanf("%lg", a) != 1){
-                printf("Incorrect value entered, please try again\n");
-                fflush(stdin);
-            }
-            else
-                break;
-        }
-}
-
-int quadSolve(double a, double b, double c, double* x1, double* x2){
-    assert(std::isfinite(a));
-    assert(std::isfinite(b));
-    assert(std::isfinite(c));
-
-    assert(x1 != NULL);
-    assert(x2 != NULL);
-    assert(x1 != x2);
-
-    if(checkZero(a)){
-        if(checkZero(b)){
-            if(checkZero(c)){
-                return INF_SOL_FLAG;
-            }
-            else{
-                return 0;
-            }
-        }
-        else{//b!=0
-            *x1 = *x2 = - c / b;
-            return 1;
-        }
-    }
-    else{//a!=0
-        double discrim = b * b - 4 * a * c;
-
-        if(discrim < 0){
-            return 0;
-        }
-
-        if(checkZero(discrim)){
-            *x1 = *x2 = - b / (2 * a);
-            return 1;
-        }
-
-        if(discrim > 0){
-            *x1 = ( - b - sqrt(discrim))/(2*a);
-            *x2 = - b - *x1;
-            return 2;
-        }
-    }
-}
-
-
+/**
+ * @brief bulbl
+*/
 int main(){
-
-    double x1 = 0, x2 = 0, a = 0, b = 0, c = 0;
-
-    printf("Hello! This is quadratic equation solver\n");
-
-    printf("Please enter coefficients:\n");
-
-    enterCoefficient(&a, 'a');
-    enterCoefficient(&b, 'b');
-    enterCoefficient(&c, 'c');
-
-    int nSolutions = quadSolve(a, b, c, &x1, &x2);
-
-    switch(nSolutions){
-        case INF_SOL_FLAG:
-            printf("Infinite number of solutions\n");
-            break;
-
-        case 0:
-            printf("No solutions :(\n");
-            break;
-
-        case 1:
-            printf("One solution: %lg\n", x1);
-            break;
-
-        case 2:
-            printf("Two solutions: %lg %lg\n", x1, x2);
-            break;
-
-        default:
-            printf("Error in: main(): countSolution = %d\n", nSolutions);
-            return 1;
-
+    float x1 = 0, x2 = 0;
+    int nSol = 0;
+    bool is = 1;
+    for(int num = 0; num < 9; num++){
+        x1 = x2 = nSol = 0;
+        nSol = quadSolve(input_set[num].a, input_set[num].b, input_set[num].c, &x1, &x2);
+        if(nSol != right_ans[num].count || !checkZero(right_ans[num].x1 - x1) || !checkZero(right_ans[num].x2 - x2)){
+            is = 0;
+            printf("Test №%d: wrong answer\n", num + 1);
+            printf("Input data:\n");
+            printf("a = %.8g\tb = %.8g\tc = %.8g\n", input_set[num].a, input_set[num].b, input_set[num].c);
+            printf("Your answer:\nnSol: %d;\tx1: %.8g;\tx2: %.8g\n", nSol, x1, x2);
+            printf("Right answer:\nnSol: %d;\tx1: %.8g;\tx2: %.8g\n", right_ans[num].count, right_ans[num].x1, right_ans[num].x2);
+        }
     }
-
+    if(is)
+        printf("All tests passed successfully\n");
     return 0;
 }
