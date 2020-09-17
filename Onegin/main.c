@@ -1,6 +1,6 @@
 #include "funcs.h"
 
-int main(int argc, char *argv[]){
+int main(int argc, const char *argv[]){
 	
 	printf("Hello! This is a line sorter of the novel by Alexander Pushkin \"Eugene Onegin\".\n");
 	//если не указан файл вввода или файл вывода, просим пользователя запустить программу еще раз
@@ -8,17 +8,15 @@ int main(int argc, char *argv[]){
 		printf("Insufficient arguments passed when calling the program. Please try again.\n(First enter input file path, then enter output file path)\n");
 		return 0;
 	}
-
-	setlocale(LC_ALL, "ru_RU.CP1251");
-
+	
 	//открытие файла для чтения по имени, переданному первым аргументом
-	FILE *f = fopen(argv[1], "r");
+	FILE *f = fopen(argv[1], "rb");
 	if(f == NULL){
 		printf("Error reading file \"%s\"\n", argv[1]);
 		return 0;
 	}
 	//открытие файла для записи по имени, переданному вторым аргументом
-	FILE *fout = fopen(argv[2] , "w");
+	FILE *fout = fopen(argv[2] , "wb");
 	if(f == NULL){
 		printf("Error reading file \"%s\"\n", argv[2]);
 		return 0;
