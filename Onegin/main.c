@@ -5,7 +5,8 @@ int main(int argc, char *argv[]){
 	printf("Hello! This is a line sorter of the novel by Alexander Pushkin \"Eugene Onegin\".\n");
 	//если не указан файл вввода или файл вывода, просим пользователя запустить программу еще раз
 	if(argc < 3){
-		printf("Insufficient arguments passed when calling the program. Please try again.\n");
+		printf("Insufficient arguments passed when calling the program. Please try again.\n(First enter input file path, then enter output file path)\n");
+		return 0;
 	}
 
 	setlocale(LC_ALL, "ru_RU.CP1251");
@@ -37,39 +38,32 @@ int main(int argc, char *argv[]){
 	//объявление массив структур Str с данными о строках
 	struct Str *index = 0;
 
-	//то же, что и индекс, но для хранения исходных строк и их дальнейшего вывода
-	struct Str *index_origin = 0;
-
-	Make_Index( buff, &index, &size, &strcnt);
-	
-	Make_Index_First(strcnt, index, &index_origin);
+	Make_Index( buff, &index, strcnt);
 
 	//сортируем строки слева направо
-	qsort(index, strcnt, sizeof(struct Str), Comparator_Begin);
+	qsort(index, strcnt, sizeof(struct Str), (int (*)(const void*, const void*))Str_Comp_Begin);
 
 	//выводим результат
 	fputs("/* Left-to-right sorted lines */\n", fout);
-	Output_Text(index, strcnt, fout);
+	Output_Sorted_Text(index, strcnt, fout);
 	fputs("/*............................*/\n\n", fout);
 
 	//сортируем строки справа налево
-	qsort(index, strcnt, sizeof(struct Str), Comparator_End);
+	qsort(index, strcnt, sizeof(struct Str), (int (*)(const void*, const void*))Str_Comp_End);
 
 	//выводим результат
 	fputs("/* Right-to-left sorted lines */\n", fout);
-	Output_Text(index, strcnt, fout);
+	Output_Sorted_Text(index, strcnt, fout);
 	fputs("/*............................*/\n\n", fout);
 
 	//вывод оригинального текста
 	fputs("/* Original text */\n", fout);
-	Output_Text(index_origin, strcnt, fout);
+	Output_Original_Text(buff, size, fout);
 	fputs("/*...............*/\n", fout);
 
 	//закрываем файлы и освобождем динамическую память
 	fclose(fout);
 	free(buff);
 	free(index);
-	free(index_origin);
 	return 0;
 }
-
