@@ -17,7 +17,7 @@ struct Str{
 void Read_Buff(FILE *f, char **buff, int *size, int *strcnt);
 
 //Make_Index заполняет массив структур Str данными о строках из буфера
-void Make_Index(char *buff, struct Str **index, int *size, int *strcnt);
+void Make_Index(char *buff, struct Str **index, int strcnt);
 
 //Is_Legit_Symb возвращает 1, если x является русской/латинской буквой или цифрой, иначе возвращает 0
 int Is_Legit_Symb(unsigned char x);
@@ -34,24 +34,9 @@ int Str_Comp_Begin(const struct Str *str1, const struct Str *str2);
 //-1, если str2 < str1
 int Str_Comp_End(const struct Str *str1, const struct Str *str2);
 
-//Компоратор, возвращаюший 
-// 1, если a > b
-// 0, если a == b
-//-1, если a < b
-//Предназначен для сравнивания строк СЛЕВА НАПРАВО
-int Comparator_Begin(const void *a, const void *b);
-
-//Компоратор, возвращаюший 
-// 1, если a > b
-// 0, если a == b
-//-1, если a < b
-//Предназначен для сравнивания строк СПРАВА НАЛЕВО
-int Comparator_End(const void *a, const void *b);
-
-//Make_Index_Origin копирует массив index в массив index_first для дальнейшего
-//вывода текста в оригинальном виде
-void Make_Index_First(int strcnt, struct Str *index, struct Str **index_first);
-
 //Output_Text записывает данные из массива index 
 //в файл, на который указывает f
-void Output_Text(struct Str *index, int strcnt, FILE *f);
+void Output_Sorted_Text(struct Str *index, int strcnt, FILE *f);
+
+//Output_Original_Text выводит исходный текст в файл fout
+void Output_Original_Text(char *buff, int size, FILE *fout);
