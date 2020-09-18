@@ -11,8 +11,8 @@
 
 /**
  * @brief Хранит информацию о строке.
- * @param Str Строка
- * @param length Длина строки 
+ * str - Строка.
+ * length - Длина строки.
 */
 struct Str{
 	char *str;
