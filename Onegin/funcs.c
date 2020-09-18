@@ -1,11 +1,20 @@
-//описание функций 
+/**
+ * @file
+ * @brief Содержит определение основных функций программы.
+ */
 #include "funcs.h"
+
+void Size_Of_File(FILE *f, int *size){
+    assert(f != 0);
+    assert(size != 0);
+    fseek(f, 0, SEEK_END);
+    *size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+}
 
 void Read_Buff(FILE *f, char **buff, int *size, int *strcnt){
     assert(f != 0);
-    fseek(f, 0, SEEK_END);
-	*size = ftell(f);
-	fseek(f, 0, SEEK_SET);
+    Size_Of_File(f, size);
 	*buff = (char *)calloc(*size + 2, sizeof(char));
     assert(buff != 0);
     **buff = '\0';
@@ -41,12 +50,14 @@ void Make_Index(char *buff, struct Str **index, int strcnt){
 }
 
 int Is_Legit_Symb(unsigned char x){
-    return (x >= 192 && x <= 255) || x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z' || isdigit(x);
+    return (x >= 192 && x <= 255) //русская буква или нет.
+    || x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z' || isdigit(x); //английская буква или цифра или нет.
 }
 
 int Str_Comp_Begin(const struct Str *str1, const struct Str *str2){
     assert(str1 != 0);
     assert(str2 != 0);
+    if(str1->length == 0 && str2->length == 0) return 0;
     if(str1->length == 0) return -1;
     if(str2->length == 0) return 1;
     int real_length1 = 0;
