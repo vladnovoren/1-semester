@@ -24,7 +24,7 @@ struct Str{
  * @param f Указатель на файл, размер которого нужно найти.
  * @param size указатель на переменную, в которую нужно записать количество символов в файле.
 */
-void Size_Of_File(FILE *f, int *size){
+void Size_Of_File(FILE *f, int *size);
 
 /**
  * @brief Переносит данные из текста в буфер.
