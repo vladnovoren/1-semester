@@ -1,2 +1,0 @@
-all:
-    clang test.cpp funcs.cpp -o run
