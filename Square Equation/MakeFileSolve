@@ -1,0 +1,2 @@
+all:
+    clang solver.cpp funcs.cpp -o run
