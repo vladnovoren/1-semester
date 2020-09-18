@@ -1,8 +1,15 @@
 /**
  * @file
+ * Исходный код main'a тестирующей функции.
 */
 #include "funcs.h"
 
+/**
+ * @brief Массив структур coef с набором тестовых данных.
+ * @param a коэффициент а.
+ * @param b коэффициент b.
+ * @param c коэффициент с.
+*/
 struct coefs{
     float a;
     float b;
@@ -19,6 +26,12 @@ struct coefs{
     6, 32, 4.234
 };
 
+/**
+ * @brief Массив структур ans с набором верных ответов.
+ * @param count количество решений.
+ * @param x1 первый корень.
+ * @param x2 второй корень.
+*/
 struct ans{
     int count;
     float x1;
@@ -36,7 +49,12 @@ struct ans{
 };
 
 /**
- * @brief bulbl
+ * @brief Вызов тестов.
+ * Для всех неверных ответов выведутся входные данные, результат программы и правильных ответ.
+ * @param nSol Количество решений
+ * @param x1 Первый корень.
+ * @param x2 Второй корень.
+ * @param is Прнимает значение 1, если все ответы сошлись, иначе 0.
 */
 int main(){
     float x1 = 0, x2 = 0;
@@ -44,8 +62,8 @@ int main(){
     bool is = 1;
     for(int num = 0; num < 9; num++){
         x1 = x2 = nSol = 0;
-        nSol = quadSolve(input_set[num].a, input_set[num].b, input_set[num].c, &x1, &x2);
-        if(nSol != right_ans[num].count || !checkZero(right_ans[num].x1 - x1) || !checkZero(right_ans[num].x2 - x2)){
+        nSol = Solve_Quade(input_set[num].a, input_set[num].b, input_set[num].c, &x1, &x2);
+        if(nSol != right_ans[num].count || !Check_Zero(right_ans[num].x1 - x1) || !Check_Zero(right_ans[num].x2 - x2)){
             is = 0;
             printf("Test №%d: wrong answer\n", num + 1);
             printf("Input data:\n");

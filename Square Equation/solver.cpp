@@ -1,12 +1,18 @@
 /**
  * @file
- * 
+ * Функция с main'ом для решения уравнений в обычном режиме
 */
 
 #include "funcs.h"
 
 /**
- * 
+ * @brief Главная функция программы
+ * В зависимости от результата работы функции Solve_Quade 
+ * @param x1 первый корень
+ * @param x2 второй корень
+ * @param a коэффициент а
+ * @param b коэффициент b
+ * @param c коэффициент c
  */
 int main(){
 
@@ -17,12 +23,12 @@ int main(){
     printf("Please enter coefficients:\n");
 
     //вводим коэффициенты уравнение
-    enterCoefficient(&a, 'a');
-    enterCoefficient(&b, 'b');
-    enterCoefficient(&c, 'c');
+    Enter_Coefficient(&a, 'a');
+    Enter_Coefficient(&b, 'b');
+    Enter_Coefficient(&c, 'c');
 
     //в nSolutions записываем количество корней уравнения ax^2 + bx + c = 0
-    int nSolutions = quadSolve(a, b, c, &x1, &x2);
+    int nSolutions = Solve_Quade(a, b, c, &x1, &x2);
 
     //рассматриваются 
     switch(nSolutions){
