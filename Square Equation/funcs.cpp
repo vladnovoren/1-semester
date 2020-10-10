@@ -3,14 +3,18 @@
 */
 #include "funcs.h"
 
-int Check_Zero(float a){
-    return (fabsf(a) < eps);
+int Check_Zero(double a){
+    return (fabs(a) < eps);
 }
 
-void Enter_Coefficient(float* a, char coef){
+double Discrim(double a, double b, double c){
+    return b * b - 4 * a * c;
+}
+
+void Enter_Coefficient(double* a, char coef){
         while(true){
             printf("%c: ", coef);
-            if(scanf("%g", a) != 1){
+            if(scanf("%lg", a) != 1){
                 printf("Incorrect value entered, please try again\n");
                 fflush(stdin);
             }
@@ -19,7 +23,7 @@ void Enter_Coefficient(float* a, char coef){
         }
 }
 
-int Solve_Quade(float a, float b, float c, float* x1, float* x2){
+int Solve_Quade(double a, double b, double c, double* x1, double* x2){
     assert(std::isfinite(a));
     assert(std::isfinite(b));
     assert(std::isfinite(c));
@@ -41,7 +45,7 @@ int Solve_Quade(float a, float b, float c, float* x1, float* x2){
         }
     }
     else{//a!=0
-        float discrim = b * b - 4 * a * c;
+        double discrim = Discrim(a, b, c);
 
         if(discrim < 0)
             return NO_SOL;
@@ -52,7 +56,7 @@ int Solve_Quade(float a, float b, float c, float* x1, float* x2){
         }
 
         if(discrim > 0){
-            float sqrt_discrim = sqrt((double)discrim);
+            double sqrt_discrim = sqrt((double)discrim);
             *x1 = (-b + sqrt_discrim)/(2 * a);
             *x2 = (-b - sqrt_discrim)/(2 * a);
             return TWO_SOL;
