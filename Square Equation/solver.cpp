@@ -15,7 +15,7 @@
  */
 int main(){
 
-    float a = 0, b = 0, c = 0,
+    double a = 0, b = 0, c = 0,
                x1 = 0, x2 = 0;
 
     printf("Hello! This is quadratic equation solver\n");
