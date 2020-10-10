@@ -1,6 +1,6 @@
 /**
  * @file
- * Исходный код main'a тестирующей функции.
+ * Режим тестирования.
 */
 #include "funcs.h"
 
@@ -59,7 +59,7 @@ struct ans{
 int main(){
     float x1 = 0, x2 = 0;
     int nSol = 0;
-    bool is = 1;
+    int is = 1;
     for(int num = 0; num < 9; num++){
         x1 = x2 = nSol = 0;
         nSol = Solve_Quade(input_set[num].a, input_set[num].b, input_set[num].c, &x1, &x2);

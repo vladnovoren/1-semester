@@ -3,8 +3,8 @@
 */
 #include "funcs.h"
 
-bool Check_Zero(float a){
-    return (fabs(a) < eps);
+int Check_Zero(float a){
+    return (fabsf(a) < eps);
 }
 
 void Enter_Coefficient(float* a, char coef){
@@ -30,35 +30,32 @@ int Solve_Quade(float a, float b, float c, float* x1, float* x2){
 
     if(Check_Zero(a)){
         if(Check_Zero(b)){
-            if(Check_Zero(c)){
-                return INF_SOL_FLAG;
-            }
-            else{
-                return 0;
-            }
+            if(Check_Zero(c))
+                return INF_SOL;
+            else
+                return NO_SOL;
         }
         else{//b!=0
             *x1 = *x2 = - c / b;
-            return 1;
+            return ONE_SOL;
         }
     }
     else{//a!=0
         float discrim = b * b - 4 * a * c;
 
-        if(discrim < 0){
-            return 0;
-        }
+        if(discrim < 0)
+            return NO_SOL;
 
         if(Check_Zero(discrim)){
             *x1 = *x2 = - b / (2 * a);
-            return 1;
+            return ONE_SOL;
         }
 
         if(discrim > 0){
             float sqrt_discrim = sqrt((double)discrim);
-            *x1 = ( - b + sqrt_discrim)/(2*a);
-            *x2 = ( - b - sqrt_discrim)/(2*a);
-            return 2;
+            *x1 = (-b + sqrt_discrim)/(2 * a);
+            *x2 = (-b - sqrt_discrim)/(2 * a);
+            return TWO_SOL;
         }
     }
     return -2;

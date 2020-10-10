@@ -6,9 +6,12 @@
 #include <math.h>
 #include <assert.h>
 
-const float eps = 1e-6; ///< Константа, равная погрешности вычислений.
+const float eps = 1e-6; ///< Погрешность вычислений.
 
-const int INF_SOL_FLAG = -1;///< Константа, обозначающая бесконечное число корней.
+const int INF_SOL = -1;///< Бесконечное число корней.
+const int  NO_SOL = 0;///< Нет корней.
+const int ONE_SOL = 1;///< Один корень.
+const int TWO_SOL = 2;///< Два корня.
 
 /**
  * @brief Проверяет, является ли число нулем.
