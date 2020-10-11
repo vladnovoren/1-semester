@@ -1,2 +1,2 @@
 all:
-	clang main.c funcs.c -g -o run
+	clang main.c funcs.c -o line-sorter
