@@ -205,48 +205,24 @@ void Swap(Str *first, Str *second){
     *second = tmp;
 }
 
-void Bubble_Sort(Str *array, int left, int right, int (*comp)(const void *, const void *)){
-    for(int pos1 = left; pos1 <= right; pos1 += 1){
-        for(int pos2 = pos1 + 1; pos2 <= right; pos2 += 1){
-            if(comp(array + pos1, array + pos2) == 1)
-                Swap(array + pos1, array + pos2);
+void Quick_Sort(Str *array, int left, int right, int (*comp) (const void *, const void *)){
+    Str pivot = Medium(array[left], array[right], array[(left + right) / 2], comp);
+    
+    int left_p = left, right_p = right;
+
+    while(left_p <= right_p){
+        while(comp(array + left_p, &pivot) < 0)
+            left_p++;
+        while(comp(array + right_p, &pivot) > 0)
+            right_p--;
+        if(left_p <= right_p){
+            Swap(array + left_p, array + right_p);
+            left_p++;
+            right_p--;
         }
     }
-}
-
-int Partition(Str *array, int left, int right, int (*comp)(const void *, const void *)){
-    int origin_left = left, origin_right = right;
-    Str pivot = Medium(array[origin_left], array[origin_right], array[(origin_left + origin_right) / 2], comp);
-    
-    while(left <= right){
-        while(left <= right && comp(array + left, &pivot) == -1)
-            left++;
-        while(left <= right && comp(array + right, &pivot) != -1)
-            right--;
-        if(left > right)
-            break;
-        Swap(array + left, array + right);
-    }
-
-    left = origin_left;
-    while(comp(array + left, &pivot) == -1)
-        left++;
-    left--;
-
-    return (left > origin_left) ? left : origin_left;
-}
-
-void Quick_Sort(Str *array, int left, int right, int (*comp) (const void *, const void *)){
-    if(left >= right)
-        return;
-
-    if(right - left < 50){
-        Bubble_Sort(array, left, right, comp);
-        return;
-    }
-
-    int pivot = Partition(array, left, right, comp);
-    
-    Quick_Sort(array, left, pivot, comp);
-    Quick_Sort(array, pivot + 1, right, comp);
+    if(left < right_p)
+        Quick_Sort(array, left, right_p, comp);
+    if(right > left_p)
+        Quick_Sort(array, left_p, right, comp);
 }

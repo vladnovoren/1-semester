@@ -151,26 +151,10 @@ Str Medium(Str str1, Str str2, Str str3, int (*comp)(const void *, const void *)
 
 /**
  * @brief Меняет значения строк.
+ * @param first Указатель на первую строку.
+ * @param second Указатель на вторую строку.
 */
 void Swap(Str *first, Str *second);
-
-/**
- * @brief Сортирует строки пузырьком (предназначено для сортировок при маленьком количестве строк)
- * @param array Массив строк.
- * @param left Левая граница массива.
- * @param right Правая граница массива.
- * @param comp Компаратор.
-*/
-void Bubble_Sort(Str *array, int left, int right, int (*comp)(const void *, const void *));
-
-/**
- * @brief Делит массив строк на две части относительно разделительного элемента и находит индекс, по которому идет разделение.
- * @param array Массив строк.
- * @param left Левая граница массива.
- * @param right Правая граница массива.
- * @param comp Компаратор.
-*/
-int Partition(Str *array, int left, int right, int (*comp)(const void *, const void *));
 
 /**
  * @brief Сортирует массив строк методом быстрой сортировки.
